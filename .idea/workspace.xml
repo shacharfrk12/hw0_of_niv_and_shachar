@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="shachar is mentally fine" />
+    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="shachar is mentally fine!!!!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,6 +84,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="copying given main file from moodle" />
     <MESSAGE value="shachar is mentally fine" />
-    <option name="LAST_COMMIT_MESSAGE" value="shachar is mentally fine" />
+    <MESSAGE value="shachar is mentally fine!!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="shachar is mentally fine!!!!" />
   </component>
 </project>
