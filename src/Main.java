@@ -4,6 +4,16 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
+    static final char CLEAR = '-';
+    static final char HIT = 'v';
+    static final char MISS = 'x';
+    static final char ALIVE = '#';
+    static final char ATTACKED = 'x';
+    static final int DIR = 1;
+    static final int MARGIN = 2;
+    static final int OVERLAP = 3;
+    static final int ADJACENT = 4;
     public static Scanner scanner;
     public static Random rnd;
 
