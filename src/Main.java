@@ -14,16 +14,18 @@ public class Main {
     static final int MARGIN = 2;
     static final int OVERLAP = 3;
     static final int ADJACENT = 4;
+    static final int VALID = 0;
 
-    static final String ENTER_BATTLESHIPS = "Enter the battleships sizes"
+    static final String ENTER_BATTLESHIPS = "Enter the battleships sizes";
+    static final String ENTER_BATTLESHIPS_PLACE = "Enter location and orientation for battleship of size ";
     public static Scanner scanner;
     public static Random rnd;
 
     /*
-    * the function receive the board size from the user,
-    * both row and col sizes
-    * @return arr - contains number of rows in arr[0] and number of columns in arr[1]
-    */
+     * the function receive the board size from the user,
+     * both row and col sizes
+     * @return arr - contains number of rows in arr[0] and number of columns in arr[1]
+     */
     public static int[] inputBoardSize(){
         System.out.println("Enter the board size");
         String boardSize = scanner.nextLine();
@@ -35,14 +37,14 @@ public class Main {
     }
 
     /*
-    * the function creates an empty ("-") board in the fitting size
-    * @param n - number of lines in array
-    * @param m - number of rows in array
-    *
-    * @returns an empty board (array of size n*m)
-    * */
-    public static int[][] initializeBoard(int n, int m){
-        int[][] board = new int[n][m];
+     * the function creates an empty ("-") board in the fitting size
+     * @param n - number of lines in array
+     * @param m - number of rows in array
+     *
+     * @returns an empty board (array of size n*m)
+     * */
+    public static char[][] initializeBoard(int n, int m){
+        char[][] board = new char[n][m];
         for(int i=0; i < n; i++){
             for(int j=0; j < m; i++){
                 board[i][j] = CLEAR;
@@ -52,19 +54,99 @@ public class Main {
     }
 
     /*
-    * the function receives battleships amounts and sizes as string from user
-    * the string format is "n1Xs1n2Xs1..."
-    *
-    * @returns the string received from user
-    * */
-    public static String inputBattleships(){
-        System.out.println(ENTER_BATTLESHIPS);
-        String battleships = scanner.nextLine();
-        return battleships;
+     *
+     *
+     * */
+    public static void resetBoard(char[][] board, int n, int m){
+        for(int i=0; i < n; i++){
+            for(int j=0; j < m; i++){
+                board[i][j] = CLEAR;
+            }
+        }
     }
-    public static void input_battleships_placement(char [][] game_board, int n, int m, String battleshipsString){
 
+    /*
+     * the function receives battleships amounts and sizes as string from user
+     * the string format is "n1Xs1n2Xs1..."
+     * and extracts the information to a more convenient data structure
+     *
+     * @returns the string received from user
+     * @returns array of battleships, each object of the array is a vector of number of battleships
+     * according to size
+     * */
+    public static int[][] inputBattleships(){
+        int len;
+        String[] nXs;
+        System.out.println(ENTER_BATTLESHIPS);
+        String battleships = scanner.nextLine(); //receives a string in format "n1Xs1 n2Xs2 ..."
+        String[] splitBattleships = battleships.split("\\s+"); //splits to battleships sorted by length
+        len = splitBattleships.length;
+        int[][] battleshipsArr = new int[len][2];
+        for(int i = 0; i < len ; i++){
+            nXs = splitBattleships[i].split("X"); //splits to number of ships and length
+            battleshipsArr[i][0] = Integer.parseInt(nXs[0]);
+            battleshipsArr[i][1] = Integer.parseInt(nXs[1]);
+        }
+        return battleshipsArr;
     }
+    /*
+     *
+     *
+     *
+     * */
+    public static void manageInputBattleships(char[][] gameBoard, int n, int m){
+        int[][] battleships = inputBattleships();
+        while(!manageBattleshipsPlacement(gameBoard, n, m, battleships)){
+            battleships = inputBattleships();
+        }
+    }
+
+
+    /*
+     * receives placement info: location(x,y) and direction(orientation) and arranges it in an array
+     *
+     * @param size: size of ship that needs to be placed;
+     *
+     * @return integer array that contains {x,y,dir}
+     * */
+    public static int[] inputBattleshipPlacement(int size){
+        int[] splitInt = new int[3];
+        System.out.println(ENTER_BATTLESHIPS_PLACE+size);
+        String battleshipPlacementStr = scanner.nextLine(); //"x, y, orientation"
+        String[] splitStr = battleshipPlacementStr.split(", ");// splits information
+        //enters the info into an int array
+        for(int i = 0; i<3; i++){
+            splitInt[i] = Integer.parseInt(splitStr[i]);
+        }
+        return splitInt;
+    }
+
+    /*
+     *
+     *
+     *
+     * */
+    public static boolean manageBattleshipsPlacement(char[][] gameBoard, int n, int m, int[][] battleships){
+        int size, validVal;
+        int[] placement;
+        int len = battleships.length;
+        for(int i = 0; i < len; i++){
+            for(int j = 0; j < battleships[i][0]; j++){
+                placement = inputBattleshipPlacement(battleships[i][0]);
+                size = battleships[i][1];
+                validVal = validBattleships(gameBoard, n, m, size, placement[0], placement[1], placement[2]);
+                if(validVal==VALID){
+                    placeUserBattleships(gameBoard, size, placement[0], placement[1], placement[2]);
+                }
+                else {
+                    resetBoard(gameBoard, n, m);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /*
     function that place the battleships on the board.
     the function checks if the direction horizontal or vertical and place is accordingly in a loop.
@@ -138,6 +220,3 @@ public class Main {
         System.out.println("All games are over.");
     }
 }
-
-
-
