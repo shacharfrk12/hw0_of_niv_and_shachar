@@ -14,16 +14,44 @@ public class Main {
     static final int MARGIN = 2;
     static final int OVERLAP = 3;
     static final int ADJACENT = 4;
+
+    static final String ENTER_BATTLESHIPS = "Enter the battleships sizes"
     public static Scanner scanner;
     public static Random rnd;
 
     public static int inputBoardSize(){
 
     }
-    public static void initializeBoard(){
 
+    /*
+    * the function creates an empty ("-") board in the fitting size
+    * @param n - number of lines in array
+    * @param m - number of rows in array
+    *
+    * @returns an empty board (array of size n*m)
+    * */
+    public static int[][] initializeBoard(int n, int m){
+        int[][] board = new int[n][m];
+        for(int i=0; i < n; i++){
+            for(int j=0; j < m; i++){
+                board[i][j] = CLEAR;
+            }
+        }
+        return board;
     }
-    public static void inputBattleships(){
+
+    /*
+    * the function receives battleships amounts and sizes as string from user
+    * the string format is "n1Xs1n2Xs1..."
+    *
+    * @returns the string received from user
+    * */
+    public static String inputBattleships(){
+        System.out.println(ENTER_BATTLESHIPS);
+        String battleships = scanner.nextLine();
+        return battleships;
+    }
+    public static void input_battleships_placement(int[][] game_board, int n, int m, String battleshipsString){
 
     }
     public static void placeUserBattleships(){
