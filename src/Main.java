@@ -188,8 +188,9 @@ public class Main {
     public static void placeComputerBattleships(){
 
     }
-    public static int validBattleships(){
-
+    public static int validBattleships(char[][] gameBoard, int n, int m, int size, int x, int y, int dir){
+        //to update!!!!
+        return 0;
     }
     public static void printValidation(){
 
