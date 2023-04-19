@@ -17,8 +17,18 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
-    public static int inputBoardSize(){
-
+    /*
+    * the function receive the board size from the user,
+    * both row and col sizes
+    * @return arr - contains rownum in arr[0] and colnum in arr[1]
+    *  */
+    public static int[] inputBoardSize(){
+        System.out.println("Enter the board size");
+        String boardSize = scanner.nextLine();
+        int rowNum = (int) boardSize.charAt(0) - 48;//converting into int
+        int colNum = (int) boardSize.charAt(2) - 48;//same
+        int [] arr = {rowNum, colNum};
+        return arr;
     }
     public static void initializeBoard(){
 
