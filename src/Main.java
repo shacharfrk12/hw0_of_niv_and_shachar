@@ -7,6 +7,30 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    public static int inputBoardSize(){
+
+    }
+    public static void initializeBoard(){
+
+    }
+    public static void inputBattleships(){
+
+    }
+    public static void placeUserBattleships(){
+
+    }
+    public static void printBoard(){
+
+    }
+    public static void placeComputerBattleships(){
+
+    }
+    public static int validBattleships(){
+
+    }
+    public static void printValidation(){
+
+    }
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
     }
