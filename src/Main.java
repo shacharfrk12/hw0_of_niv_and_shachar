@@ -1,15 +1,16 @@
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
     static final char CLEAR = '–';
-    static final char HIT = 'v';
-    static final char MISS = 'x';
+    static final char HIT = 'V';
+    static final char MISS = 'X';
     static final char ALIVE = '#';
-    static final char ATTACKED = 'x';
+    static final char ATTACKED = 'X';
     static final int DIR = 1;
     static final int MARGIN_POINT = 2;
     static final int MARGIN_BS = 3;
@@ -178,7 +179,7 @@ public class Main {
     @param: m - number of column
     @param: board - any kind of board
      */
-    public static void printBoard(int n, int m, int[][] board){
+    public static void printBoard(int n, int m, char[][] board){
         System.out.print("  ");
         for(int i = 0; i < m; i ++)
             System.out.println(i);
@@ -192,6 +193,18 @@ public class Main {
     public static void placeComputerBattleships(){
 
     }
+    /*
+     *this function validates the placement of the battleships
+     * @param n: the number of rows
+     * @param m: the number of columns
+     * @param gameBoard: the game board of the player
+     * @param size: size of the current battleship
+     * @param x,y,dir: the wanted tile and the direction
+     * (weather its vertical or horizontal )
+     *
+     * @return integer that testifies on the type of the
+     * validation mistake or zero if its valid
+     * */
     public static int validBattleships(char[][] gameBoard, int n, int m, int size, int x, int y, int dir){
         if (dir != 0 && dir != 1){
             return DIR;
@@ -230,6 +243,56 @@ public class Main {
         if(validVal!=VALID){
             System.out.println(PLACEMENT_ERROR[validVal]);
         }
+    }
+    /*
+     *this function display the player turn: the choosing of the tle to attack,
+     * the tile validation, updating the needed boards and counting the number
+     * of battleships that has left on the computer's board.
+     * @param n: the number of rows
+     * @param m: the number of columns
+     * @param guessingBoard: the board that contains the player's guessing
+     * @param computerBoard: the computer's game board
+     * @param r : the number of battleships left
+     *
+     * @return integer that contains updated r
+     * */
+    public static int playerTurn(int n, int m, char[][] guessingBoard, char[][] computerBoard, int r){
+        System.out.println("your current guessing board:");
+        printBoard(n, m , guessingBoard);
+        // this block prints the guessing board
+
+        System.out.println("enter a til to attack");
+        int x = 0, y = 0;
+        do
+        {
+            String tta = scanner.nextLine();
+            String[] str = tta.split(",");
+             x = Integer.parseInt(str[0]);
+             y = Integer.parseInt(str[1]);
+             if(x <=n || y <= m )
+                 System.out.println("illegal tile, try again!");
+             if(guessingBoard[x][y] == MISS)
+                 System.out.println("tile already attacked, try again!");
+        } while ((x <= n) || (y <= m) || guessingBoard[x][y] == MISS);
+        //this block checks if the player enter a valid tile
+
+        if(computerBoard[x][y] == CLEAR){
+            System.out.println("that is a miss!");
+            guessingBoard[x][y] = MISS;
+        }
+        //this block checks if it is a miss and mark it
+
+        if(computerBoard[x][y] == ALIVE){
+            System.out.println("that is a hit!");
+            computerBoard[x][y] = ATTACKED;
+            guessingBoard[x][y] = HIT;
+            if (battleshipDrowned()){
+                System.out.println("the computer's battleship has been drowned " + (r - 1) + " more to go!");
+            }
+        //this block checks if it is a hit, mark it and update the battleships left
+            return r - 1;
+        }
+        return r;
     }
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
