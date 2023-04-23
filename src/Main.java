@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -90,7 +89,9 @@ public class Main {
         // receives battleships number and length input from user
         int[][] battleships = inputBattleships();
         // manages battleships placement input , output and updates the board accordingly;
-        manageBattleshipsPlacement(gameBoard, n, m, battleships);
+        manageBattleshipsPlacement(gameBoard, n, m, battleships, false);
+        //the same but with computer
+        manageBattleshipsPlacement(gameBoard, n, m, battleships, true);
     }
 
 
@@ -116,14 +117,15 @@ public class Main {
     }
 
     /*
-     * manages battleship placement user input, output and updates the board accordingly
-     * @param: gameBoard - the game board of the user
+     * manages battleship placement for user\computer, according to isComputer parameter
+     * @param: gameBoard - game board of user\computer
      * @param: n - number of rows
      * @param: m - number of column
      * @param: battleships - an array of battleships, each object in the array is a 2d array that contains
      * the information: {number of ships in this size, size of ships}
      * */
-    public static void manageBattleshipsPlacement(char[][] gameBoard, int n, int m, int[][] battleships){
+    public static void manageBattleshipsPlacement(char[][] gameBoard, int n, int m, int[][] battleships,
+                                                  boolean isComputer){
         int size, validVal;
         int[] placement;
         int len = battleships.length;
@@ -131,20 +133,27 @@ public class Main {
         for(int i = 0; i < len; i++){
             // the second value of the array battleships[i] marks the size of ships
             size = battleships[i][1];
-            //for each size of ship (each object of the array) we ask for the user to place n1 ships
+            //for each size of ship (each object of the array) we ask for the user/computer to place n1 ships
             //(placing all ships of size "size")
             for(int j = 0; j < battleships[i][0]; j++){
-                //receiving placement input for battleship j of the same size until valid
+                //placing battleship j of the same size until valid
                 do{
-                    placement = inputBattleshipPlacement(size); //input for battleship i
-                    //validation for that input
+                    //checks if user\computer is placing, calls the placement function accordingly
+                    if(isComputer){
+                        placement = randomizeBattleshipPlacement(n, m); //randomization for battleship j
+                    }
+                    else {
+                        placement = inputBattleshipPlacement(size); //input for battleship j
+                    }
+                    //validation fo placement
                     validVal = validBattleships(gameBoard, n, m, size, placement[0], placement[1], placement[2]);
-                    //Error output
-                    printValidation(validVal);
+                    //Error output - only shows for user placings
+                    if(!isComputer)
+                        printValidation(validVal);
                 }
                 while(validVal!=VALID);
                 //after receiving a valid output we place the battleship on the board
-                placeUserBattleships(gameBoard, size, placement[0], placement[1], placement[2]);
+                placeBattleships(gameBoard, size, placement[0], placement[1], placement[2]);
             }
         }
     }
@@ -160,7 +169,7 @@ public class Main {
 
      */
 
-    public static void placeUserBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir ){
+    public static void placeBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir ){
         if(dir == 1 ){
             for(int i = 0; i < bsLen; i++){
                 gameBoard[x][y + i] = ALIVE;
@@ -190,8 +199,19 @@ public class Main {
             }
         }
     }
-    public static void placeComputerBattleships(){
-
+    /*
+    * selects random x, y, orientation values for one computer ship
+    * @param: n - number of rows
+    * @param: m - number of columns
+    * @return info array of size 3, contains the randomized information: {x, y, dir}
+    * */
+    public static int[] randomizeBattleshipPlacement(int n, int m){
+        int x = rnd.nextInt(n);
+        int y = rnd.nextInt(m);
+        //choosing between 0 and 1 orientation
+        int dir = rnd.nextInt(2);
+        int[] info = {x, y, dir};
+        return info;
     }
     /*
      *this function validates the placement of the battleships
@@ -294,6 +314,39 @@ public class Main {
         }
         return r;
     }
+
+    /*
+    * checks if the currently hit battleship was drowned by that hit (was hit in all its spots)
+    *
+    * @param: gameBoard - the player's board that was attacked
+    * @param: n - number of rows
+    * @param: m - number of columns
+    * @param: hitX - the row index of the hit
+    * @param: hitY - the column index of the hit
+    *
+    * @return true if the ship was drowned, false otherwise
+    * */
+    public static boolean battleshipDrowned(int[][] gameBoard, int n, int m, int hitX, int hitY){
+        int posX, posY;
+        int[][] jumps= {{1, -1, 0, 0}, {0, 0, 1, -1}};
+        //going over the 4 possible directions that the ship could continue at
+        for(int i = 0; i<4;i++) {
+            posX = hitX;
+            posY = hitY;
+            //stopping at the first square that isn't 'V' (hit)
+            while (posX < n && posY < m && gameBoard[posX][posY] == HIT) {
+                posX += jumps[i][0];
+                posY += jumps[i][1];
+            }
+            //if the first square in that direction is an alive square the ship has not drowned
+            if (posX < n && posY < m && gameBoard[posX][posY] == ALIVE) {
+                return false;
+            }
+        }
+        //if on all sides the first non hit is a miss/bound/clear, the ship has drowned
+        return true;
+    }
+
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
     }
