@@ -158,10 +158,8 @@ public class Main {
             dir - the direction that the battleship will be placed - vertical or horizontal
 
      */
-    public static void placeUserBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir){
-        if(dir == 1){
 
-    public static void placeUserBattleships( char [][] game_board, int bsLen, int x, int y, int dir ){
+    public static void placeUserBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir ){
         if(dir == 1 ){
             for(int i = 0; i < bsLen; i++){
                 gameBoard[x][y + i] = ALIVE;
