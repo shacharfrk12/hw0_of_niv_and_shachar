@@ -168,7 +168,6 @@ public class Main {
             dir - the direction that the battleship will be placed - vertical or horizontal
 
      */
-
     public static void placeBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir ){
         if(dir == 1 ){
             for(int i = 0; i < bsLen; i++){
@@ -264,6 +263,40 @@ public class Main {
             System.out.println(PLACEMENT_ERROR[validVal]);
         }
     }
+
+    public static int[] userGuess(int n, int m, char[][] guessingBoard){
+        System.out.println("Enter a tile to attack");
+        int x = 0, y = 0;
+        do
+        {
+            String tta = scanner.nextLine();
+            String[] str = tta.split(",");
+            x = Integer.parseInt(str[0]);
+            y = Integer.parseInt(str[1]);
+            //this block checks if the player enter a valid tile
+            if(x <=n || y <= m )
+                System.out.println("Illegal tile, try again!");
+            if(guessingBoard[x][y] == MISS)
+                System.out.println("Tile already attacked, try again!");
+        } while ((x <= n) || (y <= m) || guessingBoard[x][y] == MISS);
+
+        int[] guess = {x, y};
+        return guess;
+    }
+
+    public static int[] computerGuess(int n, int m, char[][] guessingBoard){
+        int[] guess = {0, 0};
+        System.out.println("Enter a tile to attack");
+        do{
+            guess[0] = rnd.nextInt(n);
+            guess[1] = rnd.nextInt(m);
+        }
+        while(guessingBoard[guess[0]][guess[1]]==MISS || guessingBoard[guess[0]][guess[1]]==HIT);
+
+        System.out.println("The computer attacked (" + guess[0] + ", " + guess[1] + ")");
+
+        return guess;
+    }
     /*
      *this function display the player turn: the choosing of the tle to attack,
      * the tile validation, updating the needed boards and counting the number
@@ -276,41 +309,38 @@ public class Main {
      *
      * @return integer that contains updated r
      * */
-    public static int playerTurn(int n, int m, char[][] guessingBoard, char[][] computerBoard, int r){
-        System.out.println("your current guessing board:");
-        printBoard(n, m , guessingBoard);
-        // this block prints the guessing board
+    public static int playerTurn(int n, int m, char[][] guessingBoard, char[][] computerBoard, int r,
+                                 boolean isComputer){
 
-        System.out.println("enter a til to attack");
-        int x = 0, y = 0;
-        do
-        {
-            String tta = scanner.nextLine();
-            String[] str = tta.split(",");
-             x = Integer.parseInt(str[0]);
-             y = Integer.parseInt(str[1]);
-             if(x <=n || y <= m )
-                 System.out.println("illegal tile, try again!");
-             if(guessingBoard[x][y] == MISS)
-                 System.out.println("tile already attacked, try again!");
-        } while ((x <= n) || (y <= m) || guessingBoard[x][y] == MISS);
-        //this block checks if the player enter a valid tile
+        int[] guess;
+        if(isComputer){
+            guess = computerGuess(n, m, guessingBoard);
+        }
+        else{
+            guess = userGuess(n, m, guessingBoard);
+        }
+        int x = guess[0], y = guess[1];
 
+        //this block checks if it is a miss and mark it
         if(computerBoard[x][y] == CLEAR){
-            System.out.println("that is a miss!");
+            System.out.println("That is a miss!");
             guessingBoard[x][y] = MISS;
         }
-        //this block checks if it is a miss and mark it
 
+        //this block checks if it is a hit, mark it and update the battleships left
         if(computerBoard[x][y] == ALIVE){
-            System.out.println("that is a hit!");
+            System.out.println("That is a hit!");
             computerBoard[x][y] = ATTACKED;
             guessingBoard[x][y] = HIT;
             if (battleshipDrowned(computerBoard, n, m, x, y)){
-                System.out.println("the computer's battleship has been drowned " + (r - 1) + " more to go!");
+                if(isComputer){
+                    System.out.println("Your battleship has been drowned " + (r - 1) + " more to go!");
+                }
+                else {
+                    System.out.println("The computer's battleship has been drowned " + (r - 1) + " more to go!");
+                }
+                return r - 1;
             }
-        //this block checks if it is a hit, mark it and update the battleships left
-            return r - 1;
         }
         return r;
     }
@@ -345,6 +375,18 @@ public class Main {
         }
         //if on all sides the first non hit is a miss/bound/clear, the ship has drowned
         return true;
+    }
+
+    public static boolean isWin(int r1, int r2){
+        if(r1 == 0){
+            System.out.println("You won the game!");
+            return true;
+        }
+        if(r2==0){
+            System.out.println("You lost ):");
+            return true;
+        }
+        return false;
     }
 
     public static void battleshipGame() {
