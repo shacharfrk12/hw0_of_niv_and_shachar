@@ -18,6 +18,8 @@ public class Main {
 
     static final String ENTER_BATTLESHIPS = "Enter the battleships sizes";
     static final String ENTER_BATTLESHIPS_PLACE = "Enter location and orientation for battleship of size ";
+    static final String[] PLACEMENT_ERROR = {"", "Illegal orientation, try again!", "Illegal tile, try again!",
+            "Battleship overlaps another battleship, try again", "Battleship exceeds the boundaries of the board, try again", "Adjacent battleship detected, try again!"};
     public static Scanner scanner;
     public static Random rnd;
 
@@ -54,23 +56,10 @@ public class Main {
     }
 
     /*
-     *
-     *
-     * */
-    public static void resetBoard(char[][] board, int n, int m){
-        for(int i=0; i < n; i++){
-            for(int j=0; j < m; i++){
-                board[i][j] = CLEAR;
-            }
-        }
-    }
-
-    /*
      * the function receives battleships amounts and sizes as string from user
      * the string format is "n1Xs1n2Xs1..."
      * and extracts the information to a more convenient data structure
      *
-     * @returns the string received from user
      * @returns array of battleships, each object of the array is a vector of number of battleships
      * according to size
      * */
@@ -90,20 +79,23 @@ public class Main {
         return battleshipsArr;
     }
     /*
-     *
-     *
-     *
+     * manages battleships input from user
+     * @param: gameBoard - the game board of the user
+     * @param: n - number of rows
+     * @param: m - number of column
      * */
     public static void manageInputBattleships(char[][] gameBoard, int n, int m){
+        // receives battleships number and length input from user
         int[][] battleships = inputBattleships();
-        while(!manageBattleshipsPlacement(gameBoard, n, m, battleships)){
-            battleships = inputBattleships();
-        }
+        // manages battleships placement input , output and updates the board accordingly;
+        manageBattleshipsPlacement(gameBoard, n, m, battleships);
     }
 
 
     /*
-     * receives placement info: location(x,y) and direction(orientation) and arranges it in an array
+     * receives placement info for specific ship:
+     * location(x,y) and direction(orientation)
+     * and arranges it in an array
      *
      * @param size: size of ship that needs to be placed;
      *
@@ -122,30 +114,39 @@ public class Main {
     }
 
     /*
-     *
-     *
-     *
+     * manages battleship placement user input, output and updates the board accordingly
+     * @param: gameBoard - the game board of the user
+     * @param: n - number of rows
+     * @param: m - number of column
+     * @param: battleships - an array of battleships, each object in the array is a 2d array that contains
+     * the information: {number of ships in this size, size of ships}
      * */
-    public static boolean manageBattleshipsPlacement(char[][] gameBoard, int n, int m, int[][] battleships){
+    public static void manageBattleshipsPlacement(char[][] gameBoard, int n, int m, int[][] battleships){
         int size, validVal;
         int[] placement;
         int len = battleships.length;
+        //goes over the battleships array
         for(int i = 0; i < len; i++){
+            // the second value of the array battleships[i] marks the size of ships
+            size = battleships[i][1];
+            //for each size of ship (each object of the array) we ask for the user to place n1 ships
+            //(placing all ships of size "size")
             for(int j = 0; j < battleships[i][0]; j++){
-                placement = inputBattleshipPlacement(battleships[i][0]);
-                size = battleships[i][1];
-                validVal = validBattleships(gameBoard, n, m, size, placement[0], placement[1], placement[2]);
-                if(validVal==VALID){
-                    placeUserBattleships(gameBoard, size, placement[0], placement[1], placement[2]);
+                //receiving placement input for battleship j of the same size until valid
+                do{
+                    placement = inputBattleshipPlacement(size); //input for battleship i
+                    //validation for that input
+                    validVal = validBattleships(gameBoard, n, m, size, placement[0], placement[1], placement[2]);
+                    //Error output
+                    printValidation(validVal);
                 }
-                else {
-                    resetBoard(gameBoard, n, m);
-                    return false;
-                }
+                while(validVal!=VALID);
+                //after receiving a valid output we place the battleship on the board
+                placeUserBattleships(gameBoard, size, placement[0], placement[1], placement[2]);
             }
         }
-        return true;
     }
+
 
     /*
     function that place the battleships on the board.
@@ -156,23 +157,24 @@ public class Main {
             dir - the direction that the battleship will be placed - vertical or horizontal
 
      */
-    public static void placeUserBattleships( char [][] game_board, int bsLen, int x, int y, int dir ){
+    public static void placeUserBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir){
         if(dir == 1){
             for(int i = 0; i < bsLen; i++){
-                game_board[x][y + i] = ALIVE;
+                gameBoard[x][y + i] = ALIVE;
             }
         }
         if(dir == 0){
             for(int i = 0; i < bsLen; i++){
-                game_board[x + i][y] = ALIVE;
+                gameBoard[x + i][y] = ALIVE;
             }
         }
     }
+
     /*
     this function prints the board.
     @param: n - number of rows
-            m - number of column
-            board- any kind of board
+    @param: m - number of column
+    @param: board - any kind of board
      */
     public static void printBoard(int n, int m, int[][] board){
         System.out.print("  ");
@@ -192,8 +194,14 @@ public class Main {
         //to update!!!!
         return 0;
     }
-    public static void printValidation(){
-
+    /*
+     * printing an error message according to validation value
+     * @param: validVal - int, a number that represents the kind of placement error committed
+     */
+    public static void printValidation(int validVal){
+        if(validVal!=VALID){
+            System.out.println(PLACEMENT_ERROR[validVal]);
+        }
     }
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
