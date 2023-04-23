@@ -11,9 +11,10 @@ public class Main {
     static final char ALIVE = '#';
     static final char ATTACKED = 'x';
     static final int DIR = 1;
-    static final int MARGIN = 2;
-    static final int OVERLAP = 3;
-    static final int ADJACENT = 4;
+    static final int MARGIN_POINT = 2;
+    static final int MARGIN_BS = 3;
+    static final int OVERLAP = 4;
+    static final int ADJACENT = 5;
     static final int VALID = 0;
 
     static final String ENTER_BATTLESHIPS = "Enter the battleships sizes";
@@ -159,6 +160,9 @@ public class Main {
      */
     public static void placeUserBattleships( char [][] gameBoard, int bsLen, int x, int y, int dir){
         if(dir == 1){
+
+    public static void placeUserBattleships( char [][] game_board, int bsLen, int x, int y, int dir ){
+        if(dir == 1 ){
             for(int i = 0; i < bsLen; i++){
                 gameBoard[x][y + i] = ALIVE;
             }
@@ -191,7 +195,33 @@ public class Main {
 
     }
     public static int validBattleships(char[][] gameBoard, int n, int m, int size, int x, int y, int dir){
-        //to update!!!!
+        if (dir != 0 && dir != 1){
+            return DIR;
+        }
+        if(x >= m || y >= n){
+            return MARGIN_POINT;
+        }
+        if((dir == 0) && (x + size >= m) ){
+            return MARGIN_BS;
+        }
+        if ((dir == 1) && (y+  size >=n) ){
+            return MARGIN_BS;
+        }
+        for(int i = 0 ; i <= size; i ++){
+            if(dir == 0){
+                if(gameBoard[x + i][y] == ALIVE)
+                    return OVERLAP;
+            }
+            if(dir == 1 && gameBoard[x][y + 1] == ALIVE){
+                return OVERLAP;
+            }
+            for(int j = -1; j < 2; j++){
+                for(int k = -1; k < 2; k++ ){
+                    if(gameBoard[x + j][y + k] == ALIVE)
+                        return ADJACENT;
+                }
+            }
+        }
         return 0;
     }
     /*
