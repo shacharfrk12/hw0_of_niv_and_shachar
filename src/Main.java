@@ -306,7 +306,7 @@ public class Main {
             System.out.println("that is a hit!");
             computerBoard[x][y] = ATTACKED;
             guessingBoard[x][y] = HIT;
-            if (battleshipDrowned()){
+            if (battleshipDrowned(computerBoard, n, m, x, y)){
                 System.out.println("the computer's battleship has been drowned " + (r - 1) + " more to go!");
             }
         //this block checks if it is a hit, mark it and update the battleships left
@@ -326,7 +326,7 @@ public class Main {
     *
     * @return true if the ship was drowned, false otherwise
     * */
-    public static boolean battleshipDrowned(int[][] gameBoard, int n, int m, int hitX, int hitY){
+    public static boolean battleshipDrowned(char[][] gameBoard, int n, int m, int hitX, int hitY){
         int posX, posY;
         int[][] jumps= {{1, -1, 0, 0}, {0, 0, 1, -1}};
         //going over the 4 possible directions that the ship could continue at

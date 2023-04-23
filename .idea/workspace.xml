@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="ADDED A VALIDATION FUNCTION">
+    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="wrote battleshipDrowned function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
