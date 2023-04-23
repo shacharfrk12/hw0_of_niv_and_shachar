@@ -253,6 +253,39 @@ public class Main {
             System.out.println(PLACEMENT_ERROR[validVal]);
         }
     }
+
+    /*
+    * checks if the currently hit battleship was drowned by that hit (was hit in all its spots)
+    *
+    * @param: gameBoard - the player's board that was attacked
+    * @param: n - number of rows
+    * @param: m - number of columns
+    * @param: hitX - the row index of the hit
+    * @param: hitY - the column index of the hit
+    *
+    * @return true if the ship was drowned, false otherwise
+    * */
+    public static boolean battleshipDrowned(int[][] gameBoard, int n, int m, int hitX, int hitY){
+        int posX, posY;
+        int[][] jumps= {{1, -1, 0, 0}, {0, 0, 1, -1}};
+        //going over the 4 possible directions that the ship could continue at
+        for(int i = 0; i<4;i++) {
+            posX = hitX;
+            posY = hitY;
+            //stopping at the first square that isn't 'V' (hit)
+            while (posX < n && posY < m && gameBoard[posX][posY] == HIT) {
+                posX += jumps[i][0];
+                posY += jumps[i][1];
+            }
+            //if the first square in that direction is an alive square the ship has not drowned
+            if (posX < n && posY < m && gameBoard[posX][posY] == ALIVE) {
+                return false;
+            }
+        }
+        //if on all sides the first non hit is a miss/bound/clear, the ship has drowned
+        return true;
+    }
+
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
     }
