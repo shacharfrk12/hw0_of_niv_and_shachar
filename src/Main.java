@@ -282,7 +282,7 @@ public class Main {
     * */
     public static int[] userGuess(int n, int m, char[][] guessingBoard){
         System.out.println("Enter a tile to attack");
-        int x = 0, y = 0;
+        int x, y;
         do
         {
             String tta = scanner.nextLine();
@@ -423,7 +423,7 @@ public class Main {
     }
 
     /*
-    *
+    * manages one game of battleships between user and computer
     *
     * */
     public static void battleshipGame() {
@@ -441,10 +441,17 @@ public class Main {
         computerR = userR;
         while(!win){
             //1. print player guessing board ("Your current guessing board:")
+            System.out.println("Your current guessing board:");
+            printBoard(n, m, userGuessBoard);
             //2.player turn (returns r)
-            //if one of the ships sunk - computerR=-1
+            //returns new computerR - adds 1 according to weather or the player sunk a computer ship
+            computerR = playerTurn(n, m, userGuessBoard, computerGameBoard, computerR, false);
             //3.computer turn (returns r)
+            userR = playerTurn(n, m, computerGuessBoard, userGameBoard, userR, true);
             //4. print player game board ("Your current game board")
+            System.out.println("Your current game board");
+            printBoard(n, m, userGameBoard);
+            //5. checks win
             win = isWin(userR, computerR);
         }
 
