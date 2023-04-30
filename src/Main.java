@@ -80,18 +80,24 @@ public class Main {
         return battleshipsArr;
     }
     /*
-     * manages battleships input from user
-     * @param: gameBoard - the game board of the user
+     * manage battleships placement aat the beginning of the game
+     * @param: userBoard - the game board of the user
+     * @param: compBoard - the game board of the computer
      * @param: n - number of rows
      * @param: m - number of column
      * */
-    public static void manageInputBattleships(char[][] gameBoard, int n, int m){
+    public static int manageInputBattleships(char[][] userBoard, char[][] compBoard, int n, int m){
         // receives battleships number and length input from user
         int[][] battleships = inputBattleships();
         // manages battleships placement input , output and updates the board accordingly;
-        manageBattleshipsPlacement(gameBoard, n, m, battleships, false);
+        manageBattleshipsPlacement(userBoard, n, m, battleships, false);
         //the same but with computer
-        manageBattleshipsPlacement(gameBoard, n, m, battleships, true);
+        manageBattleshipsPlacement(compBoard, n, m, battleships, true);
+        int count = 0;
+        for(int i = 0; i < battleships.length; i++){
+            count += battleships[i][0];
+        }
+        return count;
     }
 
 
@@ -198,6 +204,7 @@ public class Main {
             }
         }
     }
+
     /*
     * selects random x, y, orientation values for one computer ship
     * @param: n - number of rows
@@ -264,6 +271,15 @@ public class Main {
         }
     }
 
+    /*
+    * receives input for user guess in one turn
+    *
+    * @param: n - number of rows
+    * @param: m - number of columns
+    * @param guessingBoard - the user's guessing board
+    *
+    * @return an array of len 2 that contains the x,y coordinates of guessed by the user
+    * */
     public static int[] userGuess(int n, int m, char[][] guessingBoard){
         System.out.println("Enter a tile to attack");
         int x = 0, y = 0;
@@ -284,6 +300,15 @@ public class Main {
         return guess;
     }
 
+    /*
+     * generates random computer guess of one turn
+     *
+     * @param: n - number of rows
+     * @param: m - number of columns
+     * @param guessingBoard - the computer's guessing board
+     *
+     * @return an array of len 2 that contains the x,y coordinates of computer random guess
+     * */
     public static int[] computerGuess(int n, int m, char[][] guessingBoard){
         int[] guess = {0, 0};
         System.out.println("Enter a tile to attack");
@@ -377,6 +402,14 @@ public class Main {
         return true;
     }
 
+    /*
+    * checks if the game is over (one of the players won) and prints endgame output
+    *
+    * @param r1 - number of the users ships that have not been sunk yet
+    * @param r2 - number of the computers ships that have not been sunk yet
+    *
+    * @return true if one of the players won (user/computer), otherwise returns false
+    * */
     public static boolean isWin(int r1, int r2){
         if(r1 == 0){
             System.out.println("You won the game!");
@@ -389,8 +422,32 @@ public class Main {
         return false;
     }
 
+    /*
+    *
+    *
+    * */
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
+        int[] boardSize = inputBoardSize();
+        int n = boardSize[0], m = boardSize[1];
+        int userR, computerR;
+        boolean win = false;
+        char[][] userGameBoard = initializeBoard(n, m);
+        char[][] computerGameBoard = initializeBoard(n, m);
+        char[][] userGuessBoard = initializeBoard(n, m);
+        char[][] computerGuessBoard = initializeBoard(n, m);
+
+        userR = manageInputBattleships(userGameBoard, computerGameBoard, n, m);
+        computerR = userR;
+        while(!win){
+            //1. print player guessing board ("Your current guessing board:")
+            //2.player turn (returns r)
+            //if one of the ships sunk - computerR=-1
+            //3.computer turn (returns r)
+            //4. print player game board ("Your current game board")
+            win = isWin(userR, computerR);
+        }
+
     }
 
 
