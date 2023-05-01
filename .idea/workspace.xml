@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="completed writing game function (I think?)">
+    <list default="true" id="65022125-0cba-4cfe-a714-707aa23e2603" name="Changes" comment="fixed all bug yayyyyyy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -25,16 +25,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/shaha/Documents/technion/year1sem2/software_engeneering/hw0_input_output/HW0_input.txt",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="hw0_of_niv_and_shachar" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\shaha\Documents\technion\year1sem2\software_engeneering\hw0_input_output\HW0_input.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -94,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682842460007</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="completed writing game function (I think?)">
+      <created>1682862439395</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1682862439395</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +138,7 @@
     <MESSAGE value="1. computer guess&#10;2. generalized player turn to fit computer&#10;3. added isWin&#10;&#10;we need to organize it all in a good order, document it, and create the general game function" />
     <MESSAGE value="1. added documentation for latest functions&#10;2. started to write battleshipGame function - added notes on what it needs to include" />
     <MESSAGE value="completed writing game function (I think?)" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed writing game function (I think?)" />
+    <MESSAGE value="fixed all bug yayyyyyy" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed all bug yayyyyyy" />
   </component>
 </project>
